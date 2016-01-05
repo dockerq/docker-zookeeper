@@ -3,7 +3,8 @@ FROM adolphlwq/ubuntu_jre8
 
 ADD supervisord.conf /etc/
 
-RUN curl -fL http://apache.mirror.digitalpacific.com.au/zookeeper/stable/zookeeper-3.4.6.tar.gz | tar xzf - -C /usr/local && \
+RUN apt-get install -y curl && \
+    curl -fL http://apache.mirror.digitalpacific.com.au/zookeeper/stable/zookeeper-3.4.6.tar.gz | tar xzf - -C /usr/local && \
     mv /usr/local/zookeeper-3.4.6 /usr/local/zookeeper
 
 ENV ZK_HOME=/usr/zookeeper
