@@ -9,7 +9,8 @@ RUN apt-get install -y curl && \
 
 ENV ZK_HOME=/usr/local/zookeeper
 
-RUN sed -i s@zookeeper.log.dir=.*@zookeeper.log.dir=/var/zookeeper/log@ ${ZK_HOME}/conf/log4j.properties && \
+RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
+    sed -i s@zookeeper.log.dir=.*@zookeeper.log.dir=/var/zookeeper/log@ ${ZK_HOME}/conf/log4j.properties && \
     sed -i s@zookeeper.tracelog.dir=.*@zookeeper.tracelog.dir=/var/zookeeper/tracelog@ ${ZK_HOME}/conf/log4j.properties && \
     sed -i s@dataDir=.*@dataDir==/var/zookeeper/@ ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/log && \
