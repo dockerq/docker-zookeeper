@@ -17,7 +17,7 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/tracelog
 
 RUN apt-get update && \
-	apt-get install -y openjdk-7-jre && \
+	apt-get install -y openjdk-7-jre supervisor && \
 	rm -rf /var/cache/apt/archives/*
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
