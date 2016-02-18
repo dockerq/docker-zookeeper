@@ -1,4 +1,4 @@
-# suggest tag is `docker build -t adolphlwq/cluster_zookeeper .`
+# suggest tag is `docker build -t adolphlwq/zookeeper .`
 FROM ubuntu:14.04
 
 ADD supervisord.conf /etc/
@@ -16,6 +16,8 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/log && \
     mkdir -p /var/zookeeper/tracelog
 
-RUN apt-get install -y openjdk-7-jre
+RUN apt-get update && \
+	apt-get install -y openjdk-7-jre && \
+	rm -rf /var/cache/apt/archives/*
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
