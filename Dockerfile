@@ -20,4 +20,6 @@ RUN apt-get update && \
 	apt-get install -y openjdk-7-jre supervisor && \
 	rm -rf /var/cache/apt/archives/*
 
+RUN echo 1 > /var/zookeeper/myid
+
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
