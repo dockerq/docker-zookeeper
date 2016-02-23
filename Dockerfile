@@ -22,4 +22,6 @@ RUN apt-get update && \
 
 RUN echo 1 > /var/zookeeper/myid
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+#CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+
+CMD ["${ZK_HOME}/bin/zkServer.sh", "start"]
