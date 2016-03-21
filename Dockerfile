@@ -22,6 +22,6 @@ RUN apt-get update && \
 
 RUN echo 1 > /var/zookeeper/myid
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-#CMD ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
