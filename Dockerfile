@@ -1,5 +1,5 @@
 # suggest tag is `docker build -t adolphlwq/zookeeper .`
-FROM alpine:3.2
+FROM alpine:3.3
 
 ENV FRESHED_AT 2016.4.3
 
@@ -7,12 +7,15 @@ ENV FRESHED_AT 2016.4.3
 RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENV ZK_VERSION 3.4.6
-RUN apk --update add openjdk-8-jre curl && \
+RUN apk --update --no-cache add openjdk8-jre curl && \
     curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
     mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper && \
     apk del curl
 
-ENV ZK_HOME=/usr/local/zookeeper
+ENV ZK_HOME=/usr/local/zookeeper \
+    JAVA_HOME=
+ENV PATH=${PATH}:${JAVA_HOME}/bin
+
 #config zookeeper
 RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     sed -i s@zookeeper.log.dir=.*@zookeeper.log.dir=/var/zookeeper/log@ ${ZK_HOME}/conf/log4j.properties && \
