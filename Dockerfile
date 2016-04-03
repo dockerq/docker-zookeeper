@@ -1,14 +1,19 @@
 # suggest tag is `docker build -t adolphlwq/zookeeper .`
-FROM ubuntu:14.04
+FROM alpine:3.2
 
-ADD supervisord.conf /etc/
+ENV FRESHED_AT 2016.4.3
 
-RUN apt-get install -y curl && \
-    curl -fL http://apache.fayea.com/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz | tar xzf - -C /usr/local && \
-    mv /usr/local/zookeeper-3.4.6 /usr/local/zookeeper
+#unify time zone
+RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+ENV ZK_VERSION 3.4.6
+RUN apk --update add openjdk-8-jre curl && \
+    curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
+    mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper && \
+    apk del curl
 
 ENV ZK_HOME=/usr/local/zookeeper
-
+#config zookeeper
 RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     sed -i s@zookeeper.log.dir=.*@zookeeper.log.dir=/var/zookeeper/log@ ${ZK_HOME}/conf/log4j.properties && \
     sed -i s@zookeeper.tracelog.dir=.*@zookeeper.tracelog.dir=/var/zookeeper/tracelog@ ${ZK_HOME}/conf/log4j.properties && \
@@ -16,12 +21,5 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/log && \
     mkdir -p /var/zookeeper/tracelog
 
-RUN apt-get update && \
-	apt-get install -y openjdk-7-jre supervisor && \
-	rm -rf /var/cache/apt/archives/*
-
 RUN echo 1 > /var/zookeeper/myid
-
-RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+ENTRYPOINT ["${ZK_HOME}/bin/zkServer.sh", "start"]
