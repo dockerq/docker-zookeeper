@@ -7,13 +7,13 @@ ENV FRESHED_AT 2016.4.3
 RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENV ZK_VERSION 3.4.6
-RUN apk --update --no-cache add openjdk8-jre curl && \
+RUN apk --update --no-cache add openjdk8-jre bash curl && \
     curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
     mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper && \
     apk del curl
 
 ENV ZK_HOME=/usr/local/zookeeper \
-    JAVA_HOME=
+    JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 ENV PATH=${PATH}:${JAVA_HOME}/bin
 
 #config zookeeper
@@ -25,4 +25,4 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/tracelog
 
 RUN echo 1 > /var/zookeeper/myid
-ENTRYPOINT ["${ZK_HOME}/bin/zkServer.sh", "start"]
+#ENTRYPOINT ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
