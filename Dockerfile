@@ -5,7 +5,8 @@ MAINTAINER adolphlwq kenan3015@gmail.com
 RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENV ZK_VERSION 3.4.6
-RUN apt-get install -y openjdk-7-jre curl && \
+RUN apt-get update && \
+    apt-get install -y openjdk-7-jre curl && \
     curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
     mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper
 
