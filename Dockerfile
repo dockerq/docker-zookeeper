@@ -1,16 +1,13 @@
-# suggest tag is `docker build -t adolphlwq/zookeeper .`
-FROM alpine:3.3
+FROM ubuntu:14.04
+MAINTAINER adolphlwq kenan3015@gmail.com
 
-ENV FRESHED_AT 2016.4.3
-
-#unify time zone
+#set time zone
 RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENV ZK_VERSION 3.4.6
-RUN apk --update --no-cache add openjdk8-jre bash curl && \
+RUN apt-get install -y openjdk-7-jre curl && \
     curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
-    mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper && \
-    apk del curl
+    mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper
 
 ENV ZK_HOME=/usr/local/zookeeper \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
@@ -25,4 +22,4 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/tracelog
 
 RUN echo 1 > /var/zookeeper/myid
-#ENTRYPOINT ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
+CMD ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
