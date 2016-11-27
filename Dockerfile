@@ -8,7 +8,7 @@ RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENV ZK_VERSION 3.4.6
 RUN apk --update --no-cache add openjdk8-jre bash curl && \
-    curl -fL http://apache.fayea.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
+    curl -fL http://archive.apache.org/dist/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz | tar xzf - -C /usr/local && \
     mv /usr/local/zookeeper-${ZK_VERSION} /usr/local/zookeeper && \
     apk del curl
 
@@ -24,5 +24,4 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/log && \
     mkdir -p /var/zookeeper/tracelog
 
-RUN echo 1 > /var/zookeeper/myid
 CMD ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
