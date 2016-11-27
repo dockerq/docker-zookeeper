@@ -25,4 +25,4 @@ RUN mv ${ZK_HOME}/conf/zoo_sample.cfg ${ZK_HOME}/conf/zoo.cfg && \
     mkdir -p /var/zookeeper/tracelog
 
 RUN echo 1 > /var/zookeeper/myid
-#ENTRYPOINT ["/usr/local/zookeeper/bin/zkServer.sh", "start"]
+CMD ["/usr/local/zookeeper/bin/zkServer.sh", "start"]

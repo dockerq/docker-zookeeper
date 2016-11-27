@@ -12,6 +12,7 @@ zookeeper本身支持集群部署，这样会提高zookeeper的可用性。这�
 
 ## Note
 在使用zookeeper过程中有很多注意事项：
+
 1. 很多依赖zookeeper的分布式应用都会提供基于zookeeper编译好的包。这时**一定要注意分布式应用的zookeeper包版本和zookeeper的版本要一致**，否则会报错。
 2. `zoo.cfg`中存放了zookeeper的相关配置信息，这里我只配置了`dataDir`，您可以很据自己的使用需求结合[zookeeper配置](http://zookeeper.apache.org/doc/trunk/zookeeperAdmin.html#sc_configuration)来个性化自己的配置。
 3. 另外我在[Dockerfile](https://github.com/DHOPL/docker-zookeeper/blob/master/Dockerfile)中配置了zookeeper的日志:
